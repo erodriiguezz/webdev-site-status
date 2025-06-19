@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+@layer base {
+  h1 {
+    font-size: 2em;
+    line-height: 1;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    line-height: 1;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+}
