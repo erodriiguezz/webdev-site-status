@@ -27,13 +27,13 @@ function App() {
           <Section name="Webflow Health">
             <div className="flex flex-col divide-y divide-gray-200">
               {data?.components?.map(
-                (component) =>
+                (component, key) =>
                   component.showcase && (
-                    <div className="flex py-2 gap-2">
-                      <img src="" alt="" />
+                    <div className="flex py-2 gap-2" key={key}>
+                      {/* <img src="" alt="" /> */}
 
                       <div>{component.name}</div>
-                      <div>{component.status}</div>
+                      <div className="bg-green-200 text-green-600 px-2 py-1 rounded-full leading-none">{component.status}</div>
                     </div>
                   )
               )}
@@ -41,7 +41,8 @@ function App() {
           </Section>
 
           <Section name="Incidents">
-            <div>incident table</div>
+            {/* <div>incident table</div> */}
+            {data?.incidents?.length > 0 ? data.incidents.map((incident, index) => <div key={index}>{incident.description}</div>) : <p>No incidents</p>}
           </Section>
 
           <Section name="Scheduled Maintenance">
