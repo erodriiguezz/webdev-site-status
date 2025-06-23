@@ -46,7 +46,8 @@ function App() {
           </Section>
 
           <Section name="Scheduled Maintenance">
-            <div>maintenance calendar</div>
+            {/* <div>maintenance calendar</div> */}
+            {data?.scheduled_maintenances?.length > 0 ? data.scheduled_maintenances.map((maintenance, index) => <div key={index}>{maintenance.description}</div>) : <p>No maintenance scheduled</p>}
           </Section>
         </div>
       </main>
