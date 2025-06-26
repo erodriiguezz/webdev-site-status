@@ -7,6 +7,13 @@ function App() {
   const stovaVitals = useApi("https://stova.statuspage.io/api/v2/summary.json");
   const webflowVitals = useApi("https://status.webflow.com/api/v2/summary.json");
 
+  const indicatorColor = {
+    none: "green",
+    minor: "orange",
+    major: "red",
+    critical: "darkred",
+  };
+
   // const [webflowVitals, setWebflowVitals] = useState([]);
   // const [data, setData] = useState([]);
 
