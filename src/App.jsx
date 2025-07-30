@@ -23,37 +23,96 @@ function App() {
     red: "bg-red-100 text-red-600",
   };
 
-  // const [webflowVitals, setWebflowVitals] = useState([]);
-  // const [data, setData] = useState([]);
+  // const [incident, setIncident] = useState("");
 
-  useEffect(() => {
-    // axios
-    //   .get("https://status.webflow.com/api/v2/summary.json")
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     setData(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
-  }, []);
+  // useEffect(() => {
+  //   if (webflowVitals?.incidents.length) {
+  //     setIncident(webflowVitals.incidents[0].name);
+  //   }
+  // }, [webflowVitals]);
+
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    return date.toLocaleString(); // e.g., "7/28/2025, 10:20 AM"
+  };
+
+  const toSentenceCase = (str) => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
 
   return (
     <>
       <main className="w-full max-w-[1024px] m-auto px-[24px] py-[60px]">
         <div className="flex flex-col gap-6">
-          <Section name="Webflow Health" statusPageUrl="https://webflow.statuspage.io/">
-            {/* {console.log(webflowVitals)} */}
+          <section>
+            {console.log(webflowVitals)}
 
-            <div className="flex flex-col divide-y divide-gray-200">
-              {webflowVitals?.components?.map((component, key) => (
-                <div className="flex items-center py-2 gap-2" key={key}>
-                  <div>{component.name}</div>
-                  <div className={`${colorVariants[indicator[component.status].color]} px-4 py-1.5 rounded-full leading-none`}>{indicator[component.status].text}</div>
-                </div>
-              ))}
+            <div className="mb-6">
+              <h2 className="mb-0">
+                <a href="https://status.webflow.com/" target="_blank">
+                  Webflow
+                </a>
+              </h2>
+              <p className="text-gray-500">Status: {webflowVitals?.status?.description}</p>
             </div>
-          </Section>
+
+            <div className="grid grid-cols-[1fr,0.5fr] gap-6">
+              {/* report */}
+              <div>
+                <h3 className="mb-4">Report</h3>
+
+                {webflowVitals?.incidents.length > 0 ? (
+                  webflowVitals?.incidents?.map((incident, index) => (
+                    <div key={index} className="mb-6 border rounded-lg p-4 bg-white">
+                      <p className="text-lg/6 font-semibold text-gray-800">{incident.name}</p>
+                      <p className="text-sm text-gray-500">Created At: {formatDate(incident.created_at)}</p>
+
+                      <div className="mt-2 flex flex-col divide-y divide-gray-200">
+                        {incident.incident_updates?.slice(0, 3).map((update, updateIndex) => (
+                          <div key={updateIndex} className="py-2 text-sm text-gray-500 flex flex-col gap-2">
+                            <p>
+                              <span className="font-bold">Status</span>: {toSentenceCase(update.status)}
+                            </p>
+
+                            <p>
+                              <span className="font-bold">Updated</span>: {formatDate(update.created_at)}
+                            </p>
+
+                            {update.affected_components?.length > 0 && (
+                              <p>
+                                <span className="font-bold">Affected</span>:{" "}
+                                {update.affected_components.map((component, i) => (
+                                  <span key={i}>
+                                    {component.name}
+                                    {i < update.affected_components.length - 1 && "; "}
+                                  </span>
+                                ))}
+                              </p>
+                            )}
+
+                            <p>{update.body}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500 italic">No incidents reported.</p>
+                )}
+              </div>
+
+              {/* vitals */}
+              <div className="flex flex-col divide-y divide-gray-200">
+                {webflowVitals?.components?.map((component, key) => (
+                  <div className="flex items-center justify-between py-2 gap-1" key={key}>
+                    <p className="text-sm text-gray-500">{component.name}</p>
+                    <p className={`${colorVariants[indicator[component.status].color]} px-2 py-1 rounded-full leading-none text-xs`}>{indicator[component.status].text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
 
           <Section name="Stova Health" statusPageUrl="https://stova.statuspage.io/">
             {/* {console.log(stovaVitals)} */}
