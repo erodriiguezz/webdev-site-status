@@ -60,43 +60,47 @@ function App() {
             <div className="grid grid-cols-[1fr,0.5fr] gap-6">
               {/* report */}
               <div>
-                <h3 className="mb-4">Report</h3>
+                <h3 className="mb-4">Incidents</h3>
 
                 {webflowVitals?.incidents.length > 0 ? (
-                  webflowVitals?.incidents?.map((incident, index) => (
-                    <div key={index} className="mb-6 border rounded-lg p-4 bg-white">
-                      <p className="text-lg/6 font-semibold text-gray-800">{incident.name}</p>
-                      <p className="text-sm text-gray-500">Created At: {formatDate(incident.created_at)}</p>
+                  <div className="flex flex-col gap-4">
+                    {webflowVitals?.incidents?.map((incident, index) => (
+                      <div key={index} className="mb-6 border rounded-lg bg-white">
+                        <div className="bg-slate-200 rounded-t-lg p-4">
+                          <p className="text-lg/6 font-semibold text-gray-800">{incident.name}</p>
+                          <p className="text-sm text-gray-500">Created At: {formatDate(incident.created_at)}</p>
+                        </div>
 
-                      <div className="mt-2 flex flex-col divide-y divide-gray-200">
-                        {incident.incident_updates?.slice(0, 3).map((update, updateIndex) => (
-                          <div key={updateIndex} className="py-2 text-sm text-gray-500 flex flex-col gap-2">
-                            <p>
-                              <span className="font-bold">Status</span>: {toSentenceCase(update.status)}
-                            </p>
-
-                            <p>
-                              <span className="font-bold">Updated</span>: {formatDate(update.created_at)}
-                            </p>
-
-                            {update.affected_components?.length > 0 && (
+                        <div className="px-4 py-2 flex flex-col divide-y divide-gray-200">
+                          {incident.incident_updates?.slice(0, 3).map((update, updateIndex) => (
+                            <div key={updateIndex} className="py-2 text-sm text-gray-500 flex flex-col gap-2">
                               <p>
-                                <span className="font-bold">Affected</span>:{" "}
-                                {update.affected_components.map((component, i) => (
-                                  <span key={i}>
-                                    {component.name}
-                                    {i < update.affected_components.length - 1 && "; "}
-                                  </span>
-                                ))}
+                                <span className="font-bold">Status</span>: {toSentenceCase(update.status)}
                               </p>
-                            )}
 
-                            <p>{update.body}</p>
-                          </div>
-                        ))}
+                              <p>
+                                <span className="font-bold">Updated</span>: {formatDate(update.created_at)}
+                              </p>
+
+                              {update.affected_components?.length > 0 && (
+                                <p>
+                                  <span className="font-bold">Affected</span>:{" "}
+                                  {update.affected_components.map((component, i) => (
+                                    <span key={i}>
+                                      {component.name}
+                                      {i < update.affected_components.length - 1 && "; "}
+                                    </span>
+                                  ))}
+                                </p>
+                              )}
+
+                              <p>{update.body}</p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))
+                    ))}
+                  </div>
                 ) : (
                   <p className="text-gray-500 italic">No incidents reported.</p>
                 )}
