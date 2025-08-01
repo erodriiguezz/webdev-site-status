@@ -110,8 +110,8 @@ function App() {
               <div className="flex flex-col divide-y divide-gray-200">
                 {webflowVitals?.components?.map((component, key) => (
                   <div className="flex items-center justify-between py-2 gap-1" key={key}>
-                    <p className="text-sm text-gray-500">{component.name}</p>
-                    <p className={`${colorVariants[indicator[component.status].color]} px-2 py-1 rounded-full leading-none text-xs`}>{indicator[component.status].text}</p>
+                    <p className="text-sm text-gray-500 flex-1">{component.name}</p>
+                    <p className={`${colorVariants[indicator[component.status].color]} px-2 py-1 rounded-full leading-none text-xs text-center`}>{indicator[component.status].text}</p>
                   </div>
                 ))}
               </div>
